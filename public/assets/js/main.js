@@ -50,9 +50,14 @@ $(function () {
         event.stopPropagation();
     });
     $(".single_note_content").on("click", function (event) {
-        openModal();
+        // openModal();
+        let modalId = $(this).attr('data-modal');
+        $(`.custom_modal_area[data-modal="${modalId}"]`).addClass("show_modal");
+        console.log(modalId);
         event.stopPropagation();
     });
+
+
     $(".cancel_modal").on("click", function (event) {
         $(".custom_modal_area").removeClass("show_modal");
         event.stopPropagation();
@@ -116,7 +121,7 @@ $(function () {
 });
 
 function openModal() {
-    $(".custom_modal_area").addClass("show_modal");
+    $(".create-note-model").addClass("show_modal");
     $(".drop_menu_user").removeClass("show_setting");
     $(".drop_menu_setting").removeClass("show_setting");
     $(".theme_area").removeClass("show_drop_theme");

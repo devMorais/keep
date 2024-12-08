@@ -58,6 +58,7 @@ textarea {
     border-radius: 3px;
     font-size: 16px;
     font-weight: 300;
+    background-color: transparent;
 }
 
 input::placeholder,
@@ -589,6 +590,7 @@ header .header_right li .drop_menu.show_setting {
 
 .theme_area .theme_color li .red {
     background: red;
+    border: 1px solid #ddd;
 }
 
 .theme_area .theme_color li .blue {
@@ -666,6 +668,13 @@ header .header_right li .drop_menu.show_setting {
     -moz-transition: all linear .3s;
     -ms-transition: all linear .3s;
     -o-transition: all linear .3s;
+
+    background-size: cover;
+    /* Faz a imagem cobrir todo o espaço disponível */
+    background-position: center;
+    /* Garante que a imagem fique centralizada */
+    background-repeat: no-repeat;
+    /* Evita a repetição da imagem */
 }
 
 .single_note_content {

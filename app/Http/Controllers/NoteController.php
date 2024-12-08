@@ -13,7 +13,47 @@ class NoteController extends Controller
      */
     public function index()
     {
-        $notes = Note::where('user_id', auth()->user()->id)->latest()->get();
+        $notes = Note::where('user_id', auth()->user()->id)
+            ->where('archived', false) // ou ->where('archived', 0)
+            ->latest()
+            ->get();
+
+        return view('dashboard', compact('notes'));
+    }
+
+    public function changeAppearance(Request $request)
+    {
+        $note = Note::where('user_id', auth()->user()->id)
+            ->where('id', $request->id)
+            ->first();
+        $note->update([
+            'color_name' => $request->color,
+            'appearance_type' => $request->type,
+            'image_path' => $request->image
+        ]);
+
+        return response()->json(['message' => 'success'], 200);
+    }
+
+    public function putArchived($id)
+    {
+        $note = Note::where('user_id', auth()->user()->id)
+            ->where('id', $id)
+            ->first();
+        $note->update([
+            'archived' => !$note->archived,
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function archived()
+    {
+        $notes = Note::where('user_id', auth()
+            ->user()->id)
+            ->where('archived', 1)
+            ->latest()
+            ->get();
         return view('dashboard', compact('notes'));
     }
 
@@ -60,7 +100,26 @@ class NoteController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        $note = Note::findOrFail($id);
+
+        $note->update([
+            'user_id' => auth()->user()->id,
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function trash()
+    {
+        $notes = Note::where('user_id', auth()
+            ->user()->id)
+            ->onlyTrashed()
+            ->latest()
+            ->get();
+        return view('trash-bin', compact('notes'));
     }
 
     /**
@@ -68,6 +127,9 @@ class NoteController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $note = Note::findOrfail($id);
+        $note->delete();
+
+        return redirect()->back();
     }
 }

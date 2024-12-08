@@ -14,6 +14,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::post('/notes/appearance', [NoteController::class, 'changeAppearance'])->name('notes.appearance');
+    Route::get('/notes/put-archived/{id}', [NoteController::class, 'putArchived'])->name('notes.put-archived');
+    Route::get('/notes/archived', [NoteController::class, 'archived'])->name('notes.archived');
+    Route::get('/notes/trash', [NoteController::class, 'trash'])->name('notes.trash');
+    Route::get('/notes/trash-restore', [NoteController::class, 'trashRestore'])->name('notes.trash-restore');
     Route::resource('notes',  NoteController::class);
 });
 
