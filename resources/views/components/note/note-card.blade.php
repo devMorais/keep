@@ -44,11 +44,7 @@
                             <li><a href="javascript:;" onclick="$('.delete-note-{{ $note->id }}').submit()">Excluir
                                     nota</a></li>
                             @if ($trash == true)
-                                {
-                                <li><a href="javascript:;"
-                                        onclick="$('.delete-note-{{ $note->id }}').submit()">restaurar
-                                        nota</a></li>
-                                }
+                                <li> <a href="{{ route('notes.trash-restore', $note->id) }}">Restaurar</a></li>
                             @endif
                         </ul>
 
@@ -56,6 +52,7 @@
                             method="POST">
                             @method('DELETE')
                             @csrf
+                            <input type="hidden" name="permanent_delete" value="{{ $trash ? 1 : 0 }}">
                         </form>
                     </li>
                 </ul>

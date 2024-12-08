@@ -11,6 +11,6 @@
     <x-note.create-modal />
 
     <div class="row">
-        <x-note.note-card :notes="$notes" :$trash="true" />
+        <x-note.note-card :notes="$notes" :trash="true" />
     </div>
 </x-app-layout>

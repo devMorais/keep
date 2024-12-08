@@ -18,7 +18,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/notes/put-archived/{id}', [NoteController::class, 'putArchived'])->name('notes.put-archived');
     Route::get('/notes/archived', [NoteController::class, 'archived'])->name('notes.archived');
     Route::get('/notes/trash', [NoteController::class, 'trash'])->name('notes.trash');
-    Route::get('/notes/trash-restore', [NoteController::class, 'trashRestore'])->name('notes.trash-restore');
+    Route::get('/notes/trash-restore/{id}', [NoteController::class, 'trashRestore'])->name('notes.trash-restore');
     Route::resource('notes',  NoteController::class);
 });
 

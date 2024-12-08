@@ -11,10 +11,7 @@ class NoteCard extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct(public $notes, public $trash = false)
-    {
-        //
-    }
+    public function __construct(public $notes, public $trash = false) {}
 
     /**
      * Get the view / contents that represent the component.
