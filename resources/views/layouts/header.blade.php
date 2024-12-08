@@ -8,10 +8,7 @@
             <a class="setting"><i class="fal fa-cog"></i></a>
             <ul class="drop_menu drop_menu_setting">
                 <li><a href="{{ route('profile.edit') }}">Configurações</a></li>
-                <li><a href="#">Ativar tema escuro</a></li>
-                <li><a href="#">Enviar feedback</a></li>
-                <li><a href="#">Ajuda</a></li>
-                <li><a href="#">Downloads do aplicativo</a></li>
+                <li><a href="javascript:;" onclick="$('.logout').submit()" class="text-danger">Sair</a></li>
             </ul>
         </li>
         <li class="user_area">
@@ -19,12 +16,12 @@
                 <img src="{{ asset('assets/images/user_icon.png') }}" alt="Usuário" class="img-fluid">
             </div>
             <ul class="drop_menu drop_menu_user">
-                <li><a href="#">Configurações</a></li>
-                <li><a href="#">Ativar tema escuro</a></li>
-                <li><a href="#">Enviar feedback</a></li>
-                <li><a href="#">Ajuda</a></li>
-                <li><a href="#">Downloads do aplicativo</a></li>
+                <li><a href="{{ route('profile.edit') }}">Perfil</a></li>
+                <li><a href="javascript:;" onclick="$('.logout').submit()" class="text-danger">Sair</a></li>
             </ul>
         </li>
+        <form action="{{ route('logout') }}" class="logout" method="POST">
+            @csrf
+        </form>
     </ul>
 </header>

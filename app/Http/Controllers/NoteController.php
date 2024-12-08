@@ -14,7 +14,14 @@ class NoteController extends Controller
     public function index()
     {
         $notes = Note::where('user_id', auth()->user()->id)
-            ->where('archived', false) // ou ->where('archived', 0)
+            ->where('archived', 0)
+            ->when(request()->has('search') && request()->filled('search'), function ($query) {
+                $search = request('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('content', 'like', '%' . $search . '%');
+                });
+            })
             ->latest()
             ->get();
 
@@ -47,23 +54,40 @@ class NoteController extends Controller
         return redirect()->back();
     }
 
+    // public function archived()
+    // {
+    //     $notes = Note::where('archived', 1)->where('user_id', auth()
+    //         ->user()->id)
+    //         ->when(request()->has('search') && request()->filled('search'), function ($query) {
+    //             $search = request('search');
+    //             $query->where(function ($q) use ($search) {
+    //                 $q->where('title', 'like', '%' . $search . '%')
+    //                     ->orWhere('content', 'like', '%' . $search . '%');
+    //             });
+    //         })
+    //         ->latest()
+    //         ->get();
+    //     return view('dashboard', compact('notes'));
+    // }
+
     public function archived()
     {
-        $notes = Note::where('user_id', auth()
-            ->user()->id)
+
+        $notes = Note::where('user_id', auth()->user()->id)
             ->where('archived', 1)
+            ->when(request()->has('search') && request()->filled('search'), function ($query) {
+                $search = request('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('content', 'like', '%' . $search . '%');
+                });
+            })
             ->latest()
             ->get();
+
         return view('dashboard', compact('notes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -77,22 +101,6 @@ class NoteController extends Controller
         ]);
 
         return redirect()->back();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -117,6 +125,13 @@ class NoteController extends Controller
 
         $notes = Note::where('user_id', auth()
             ->user()->id)
+            ->when(request()->has('search') && request()->filled('search'), function ($query) {
+                $search = request('search');
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('content', 'like', '%' . $search . '%');
+                });
+            })
             ->onlyTrashed()
             ->latest()
             ->get();
